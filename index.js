@@ -1,6 +1,8 @@
 const ROCK = "rock";
 const PAPER = "paper";
 const SCISSORS = "scissors";
+const humanScore = 0;
+const computerScore = 0;
 
 function getComputerChoice() {
   const randomChoice = Math.floor(Math.random() * 3);
