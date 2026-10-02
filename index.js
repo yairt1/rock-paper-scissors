@@ -1,8 +1,12 @@
 const ROCK = "rock";
 const PAPER = "paper";
 const SCISSORS = "scissors";
-const humanScore = 0;
-const computerScore = 0;
+const DRAW = 0;
+const oneWon = 1;
+const twoWon = 2;
+
+let humanScore = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
   const randomChoice = Math.floor(Math.random() * 3);
@@ -18,19 +22,57 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  let choice = prompt("Enter rock / paper / scissors to play:");
+  let choice = prompt("Enter rock / paper / scissors to play: ");
 
-  while (choice === null) {
-    choice = prompt("Empty value! Please enter a proper value to play: ");
+  while (
+    choice === null ||
+    (choice.toLowerCase() !== ROCK &&
+      choice.toLowerCase() !== PAPER &&
+      choice.toLowerCase() !== SCISSORS)
+  ) {
+    choice = prompt("Invalid value! Please enter a proper value to play: ");
   }
 
-  choice = choice.toLowerCase();
-
-  while (choice !== ROCK && choice !== PAPER && choice !== SCISSORS) {
-    choice = prompt(
-      "Invalid value! Please enter a proper value to play: ",
-    ).toLowerCase();
-  }
-
-  return choice;
+  return choice.toLowerCase();
 }
+
+function playRound(humanChoice, computerChoice) {
+  console.log(
+    `Your choice: ${humanChoice}, Computer choice: ${computerChoice}`,
+  );
+
+  const outcome = gameRules(humanChoice, computerChoice);
+
+  switch (outcome) {
+    case oneWon: {
+      console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+      humanScore++;
+      break;
+    }
+    case twoWon: {
+      console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+      computerScore++;
+      break;
+    }
+    default: {
+      console.log("Draw, same choice");
+    }
+  }
+}
+
+function gameRules(player1, player2) {
+  if (player1 === player2) {
+    return DRAW;
+  } else if (
+    (player1 === ROCK && player2 === SCISSORS) ||
+    (player1 === PAPER && player2 === ROCK) ||
+    (player1 === SCISSORS && player2 === PAPER)
+  ) {
+    return oneWon;
+  }
+
+  return twoWon;
+}
+
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
