@@ -4,6 +4,7 @@ const SCISSORS = "scissors";
 const DRAW = 0;
 const oneWon = 1;
 const twoWon = 2;
+const GAME_ROUNDS = 5;
 
 let humanScore = 0;
 let computerScore = 0;
@@ -74,5 +75,23 @@ function gameRules(player1, player2) {
   return twoWon;
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+function playGame() {
+  for (let i = 0; i < GAME_ROUNDS; i++) {
+    console.log(`---------------- Game ${i + 1} -------------------`);
+    playRound(getHumanChoice(), getComputerChoice());
+    console.log(`Human score: ${humanScore}, Computer score: ${computerScore}`);
+    console.log(`-------------------------------------------`);
+  }
+
+  console.log("\nGame outcome:");
+
+  if (humanScore > computerScore) {
+    console.log("You win!");
+  } else if (humanScore < computerScore) {
+    console.log("You lose!");
+  } else {
+    console.log("Draw");
+  }
+}
+
+playGame();
