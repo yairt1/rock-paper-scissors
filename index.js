@@ -4,7 +4,7 @@ const SCISSORS = "scissors";
 const DRAW = 0;
 const oneWon = 1;
 const twoWon = 2;
-const GAME_ROUNDS = 5;
+const WINNER_SCORE = 5;
 
 let humanScore = 0;
 let computerScore = 0;
@@ -77,7 +77,7 @@ function gameRules(player1, player2) {
 }
 
 function playGame() {
-  for (let i = 0; i < GAME_ROUNDS; i++) {
+  for (let i = 0; i < WINNER_SCORE; i++) {
     console.log(`---------------- Game ${i + 1} -------------------`);
     playRound(getHumanChoice(), getComputerChoice());
     console.log(`Human score: ${humanScore}, Computer score: ${computerScore}`);
@@ -95,16 +95,52 @@ function playGame() {
   }
 }
 
-// playGame();
-
 const options = document.querySelector("#options");
 const roundChoices = document.querySelector("#round-choices");
 const roundResult = document.querySelector("#round-result");
+const humanScoreElement = document.querySelector("#human-score");
+const computerScoreElement = document.querySelector("#computer-score");
+const gameWinner = document.createElement("h1");
+const resetGame = document.createElement("button");
 
-options.addEventListener("click", (event) => {
+resetGame.textContent = "Reset Game";
+
+function game(event) {
   const choice = event.target.textContent.toLowerCase();
 
   if (event.target !== options) {
     playRound(choice, getComputerChoice());
+    humanScoreElement.textContent = humanScore;
+    computerScoreElement.textContent = computerScore;
   }
+
+  if (humanScore === WINNER_SCORE || computerScore === WINNER_SCORE) {
+    if (humanScore === WINNER_SCORE) {
+      gameWinner.style.color = "green";
+      gameWinner.textContent = "YOU WON THE GAME";
+    } else {
+      gameWinner.style.color = "red";
+      gameWinner.textContent = "YOU LOST THE GAME";
+    }
+
+    roundResult.after(gameWinner);
+    gameWinner.after(resetGame);
+
+    options.removeEventListener("click", game);
+  }
+}
+
+options.addEventListener("click", game);
+
+resetGame.addEventListener("click", (event) => {
+  humanScore = 0;
+  computerScore = 0;
+  humanScoreElement.textContent = 0;
+  computerScoreElement.textContent = 0;
+  roundChoices.textContent = "";
+  roundResult.textContent = "";
+  gameWinner.remove();
+  resetGame.remove();
+
+  options.addEventListener("click", game);
 });
