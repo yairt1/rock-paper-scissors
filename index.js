@@ -38,27 +38,28 @@ function getHumanChoice() {
 }
 
 function playRound(humanChoice, computerChoice) {
-  console.log(
-    `Your choice: ${humanChoice}, Computer choice: ${computerChoice}`,
-  );
+  roundChoices.textContent = `Your choice: ${humanChoice}, Computer choice: ${computerChoice}`;
 
   const outcome = gameRules(humanChoice, computerChoice);
+  let outcomeText;
 
   switch (outcome) {
     case oneWon: {
-      console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+      outcomeText = `You win! ${humanChoice} beats ${computerChoice}`;
       humanScore++;
       break;
     }
     case twoWon: {
-      console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+      outcomeText = `You lose! ${computerChoice} beats ${humanChoice}`;
       computerScore++;
       break;
     }
     default: {
-      console.log("Draw, same choice");
+      outcomeText = "Draw, same choice";
     }
   }
+
+  roundResult.textContent = outcomeText;
 }
 
 function gameRules(player1, player2) {
@@ -97,6 +98,8 @@ function playGame() {
 // playGame();
 
 const options = document.querySelector("#options");
+const roundChoices = document.querySelector("#round-choices");
+const roundResult = document.querySelector("#round-result");
 
 options.addEventListener("click", (event) => {
   const choice = event.target.textContent.toLowerCase();
