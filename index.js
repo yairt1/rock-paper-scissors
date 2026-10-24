@@ -94,4 +94,14 @@ function playGame() {
   }
 }
 
-playGame();
+// playGame();
+
+const options = document.querySelector("#options");
+
+options.addEventListener("click", (event) => {
+  const choice = event.target.textContent.toLowerCase();
+
+  if (event.target !== options) {
+    playRound(choice, getComputerChoice());
+  }
+});
